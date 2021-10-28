@@ -6,7 +6,12 @@ const client = axios.create({
 });
 
 export const executeRequest = (endpoint: string, method: Method, body?: any): any => {
-    const headers = { 'Content-Type': 'application/json' };
+    const headers = { 'Content-Type': 'application/json' } as any;
+
+    const accessToken = localStorage.getItem('accessToken');
+    if(accessToken){
+        headers['Authorization'] = 'Bearer ' + accessToken;
+    }
 
     console.log(`executando: ${endpoint}, metodo: ${method}, body: ${body}`);
     return client.request({
