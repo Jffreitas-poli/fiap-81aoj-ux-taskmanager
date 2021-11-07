@@ -28,24 +28,24 @@ const handler = async ( req : NextApiRequest, res : NextApiResponse<DefaultRespo
                 break;
         }
 
-        return res.status(400).json({ error: 'Metodo informado nao esta disponivel.'});
+        return res.status(400).json({ error: 'Método informado não está disponivel'});
     }catch(e){
         console.log(e);
-        res.status(500).json({ error: 'Ocorreu erro ao gerenciar tarefas, tente novamente.'});
+        res.status(500).json({ error: 'Ocorreu erro ao gerenciar tarefas, tente novamente'});
     }
 }
 
 const validateBody = (obj : TaskRequest, userId : string | null | undefined) => {
     if(!obj.name || obj.name.length < 3){
-        return 'Nome da tarefa invalido.';
+        return 'Nome da tarefa inválido';
     }
 
     if(!userId){
-         return 'Usuario nao encontrado.';
+         return 'Usuário não encontrado';
     }
 
     if(!obj.finishPrevisionDate){
-        return 'Data de previsao nao informada.';
+        return 'Data de previsão não informada';
     }
 }
 
@@ -64,7 +64,7 @@ const saveTask = async ( req : NextApiRequest, res : NextApiResponse<DefaultResp
     };
 
     await TaskModel.create(task);
-    return res.status(200).json({ message: 'Tarefa criada com sucesso.'});
+    return res.status(200).json({ message: 'Tarefa criada com sucesso'});
 }
 
 const validateAndReturnTaskFound = async (req : NextApiRequest, userId : string | null | undefined) => {
@@ -91,7 +91,7 @@ const updateTask = async ( req : NextApiRequest, res : NextApiResponse<DefaultRe
     
     const taskFound = await validateAndReturnTaskFound(req, userId);
     if(!taskFound){
-        return res.status(400).json({ error: 'Tarefa nao encontrada'});
+        return res.status(400).json({ error: 'Tarefa não encontrada'});
     }
 
     const msgValidation = validateBody(obj, userId);
@@ -104,7 +104,7 @@ const updateTask = async ( req : NextApiRequest, res : NextApiResponse<DefaultRe
     taskFound.finishDate = obj.finishDate;
 
     await TaskModel.findByIdAndUpdate({ _id : taskFound._id}, taskFound);
-    return res.status(200).json({ message: 'Tarefa alterada com sucesso.'});
+    return res.status(200).json({ message: 'Tarefa alterada com sucesso'});
 }
 
 const deleteTask = async ( req : NextApiRequest, res : NextApiResponse<DefaultResponse>, userId : string | null | undefined) => {
@@ -114,7 +114,7 @@ const deleteTask = async ( req : NextApiRequest, res : NextApiResponse<DefaultRe
     }
 
     await TaskModel.findByIdAndDelete({ _id : taskFound._id});
-    return res.status(200).json({ message: 'Tarefa deletada com sucesso.'});
+    return res.status(200).json({ message: 'Tarefa deletada com sucesso'});
 }
 
 const getTasks = async ( req : NextApiRequest, res : NextApiResponse<DefaultResponse | Task[]>, userId : string | null | undefined) => {
